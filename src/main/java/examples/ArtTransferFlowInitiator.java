@@ -15,7 +15,7 @@ import java.util.List;
 
 import static com.google.common.collect.Iterables.find;
 
-// `TokenIssueFlowInitiator` means that we can start the flow directly (instead of
+// `IouIssueFlow` means that we can start the flow directly (instead of
 // solely in response to another flow).
 @InitiatingFlow
 // `StartableByRPC` means that a node operator can start the flow via RPC.

@@ -1,22 +1,25 @@
 package bootcamp;
 
 import co.paralleluniverse.fibers.Suspendable;
+import com.google.common.collect.ImmutableList;
 import net.corda.core.flows.*;
 import net.corda.core.identity.Party;
 import net.corda.core.transactions.SignedTransaction;
 import net.corda.core.transactions.TransactionBuilder;
 import net.corda.core.utilities.ProgressTracker;
-import net.corda.core.contracts.CommandData;
+
+import java.security.PublicKey;
+import java.util.List;
 
 import static java.util.Collections.singletonList;
 
 @InitiatingFlow
 @StartableByRPC
-public class TokenIssueFlowInitiator extends FlowLogic<SignedTransaction> {
+public class IouIssueFlow extends FlowLogic<SignedTransaction> {
     private final Party owner;
     private final int amount;
 
-    public TokenIssueFlowInitiator(Party owner, int amount) {
+    public IouIssueFlow(Party owner, int amount) {
         this.owner = owner;
         this.amount = amount;
     }
@@ -37,20 +40,26 @@ public class TokenIssueFlowInitiator extends FlowLogic<SignedTransaction> {
         Party issuer = getOurIdentity();
 
         /* ============================================================================
-         *         TODO 1 - Create our TokenState to represent on-ledger tokens!
+         *         TODO 1 - Create our IouState to represent on-ledger tokens!
          * ===========================================================================*/
-        // We create our new TokenState.
-        TokenState tokenState = null;
+        // We create our new IouState.
+        IouState iouState = new IouState(issuer,owner,amount);
+        IouContract.Commands.Issue command = new IouContract.Commands.Issue();
 
 
         /* ============================================================================
          *      TODO 3 - Build our token issuance transaction to update the ledger!
          * ===========================================================================*/
         // We build our transaction.
-        TransactionBuilder transactionBuilder = null;
+        TransactionBuilder transactionBuilder = new TransactionBuilder();
+        transactionBuilder.setNotary(notary);
+        transactionBuilder.addOutputState(iouState,IouContract.ID);
+        List<PublicKey> requireSingers = ImmutableList.of(iouState.getIssuer().getOwningKey(),owner.getOwningKey());
+        transactionBuilder.addCommand(command,requireSingers);
+
 
         /* ============================================================================
-         *          TODO 2 - Write our TokenContract to control token issuance!
+         *          TODO 2 - Write our IouContract to control token issuance!
          * ===========================================================================*/
         // We check our transaction is valid based on its contracts.
         transactionBuilder.verify(getServiceHub());

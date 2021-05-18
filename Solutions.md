@@ -70,7 +70,7 @@
     import static net.corda.core.contracts.ContractsDSL.requireThat;
     
     public class TokenContract implements Contract {
-        public static String ID = "bootcamp.TokenContract";
+        public static String ID = "bootcamp.IouContract";
     
         @Override
         public void verify(LedgerTransaction tx) throws IllegalArgumentException {
@@ -144,7 +144,7 @@
     
             Party issuer = getOurIdentity();
     
-            TokenState tokenState = new TokenState(issuer, owner, amount);
+            TokenState iouState = new TokenState(issuer, owner, amount);
     
             TransactionBuilder transactionBuilder = new TransactionBuilder(notary);
     
@@ -152,7 +152,7 @@
     
             transactionBuilder.addCommand(commandData, issuer.getOwningKey(), owner.getOwningKey());
     
-            transactionBuilder.addOutputState(tokenState, TokenContract.ID);
+            transactionBuilder.addOutputState(iouState, TokenContract.ID);
     
             transactionBuilder.verify(getServiceHub());
     
@@ -177,6 +177,6 @@
 killall -9 java
 
 ./build/nodes/runnodes
-flow start bootcamp.TokenIssueFlowInitiator owner: PartyB, amount: 50
+flow start bootcamp.IouIssueFlow owner: PartyB, amount: 50
 ```
 

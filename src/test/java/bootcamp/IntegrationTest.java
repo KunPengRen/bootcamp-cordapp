@@ -42,31 +42,31 @@ public class IntegrationTest {
                 Party partyB = partyBHandle.getNodeInfo().getLegalIdentities().get(0);
 
 //                // Run issue transaction using rpc
-//                partyAHandle.getRpc().startTrackedFlowDynamic(TokenIssueFlowInitiator.class, partyB, 100)
+//                partyAHandle.getRpc().startTrackedFlowDynamic(IouIssueFlow.class, partyB, 100)
 //                        .getReturnValue().get();
 //
 //                // Query Node A
-//                Vault.Page<TokenState> tokenStates_A = partyAHandle.getRpc().vaultQuery(TokenState.class);
+//                Vault.Page<IouState> tokenStates_A = partyAHandle.getRpc().vaultQuery(IouState.class);
 //                assertEquals(1, tokenStates_A.getStates().size());
 //
-//                TokenState tokenState_A = tokenStates_A.getStates().get(0).getState().getData();
+//                IouState tokenState_A = tokenStates_A.getStates().get(0).getState().getData();
 //                assertEquals(partyA, tokenState_A.getIssuer());
 //                assertEquals(partyB, tokenState_A.getOwner());
 //                assertEquals(100, tokenState_A.getAmount());
 //
 //
 //                // Query Node B
-//                Vault.Page<TokenState> tokenStates_B = partyBHandle.getRpc().vaultQuery(TokenState.class);
+//                Vault.Page<IouState> tokenStates_B = partyBHandle.getRpc().vaultQuery(IouState.class);
 //                assertEquals(1, tokenStates_B.getStates().size());
 //
-//                TokenState tokenState_B = tokenStates_B.getStates().get(0).getState().getData();
+//                IouState tokenState_B = tokenStates_B.getStates().get(0).getState().getData();
 //                assertEquals(partyA, tokenState_B.getIssuer());
 //                assertEquals(partyB, tokenState_B.getOwner());
 //                assertEquals(100, tokenState_B.getAmount());
 //
 //
 //                //Query Node C
-//                Vault.Page<TokenState> tokenStates_C = partyCHandle.getRpc().vaultQuery(TokenState.class);
+//                Vault.Page<IouState> tokenStates_C = partyCHandle.getRpc().vaultQuery(IouState.class);
 //                assertEquals(0, tokenStates_C.getStates().size());
 
             } catch (Exception e) {
